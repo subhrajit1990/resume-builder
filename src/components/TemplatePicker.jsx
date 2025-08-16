@@ -1,9 +1,9 @@
 import { useState } from "react";
 
 const TEMPLATES = [
-  { id: "A", name: "Template A", img: "/templates/templateA.svg" },
-  { id: "B", name: "Template B", img: "/templates/templateB.svg" },
-  { id: "C", name: "Template C", img: "/templates/templateC.svg" }
+  { id: "A", name: "Template A", img: process.env.PUBLIC_URL + "/templates/templateA.svg" },
+  { id: "B", name: "Template B", img: process.env.PUBLIC_URL + "/templates/templateB.svg" },
+  { id: "C", name: "Template C", img: process.env.PUBLIC_URL + "/templates/templateC.svg" }
 ];
 
 export default function TemplatePicker({ value, onChange }) {

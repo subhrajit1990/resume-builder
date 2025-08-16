@@ -11,7 +11,7 @@ const DownloadButton = ({ children }) => {
 
   return (
     <div style={{ textAlign: "center" }}>
-      {/* Wrap resume preview */}
+      {/* Hidden wrapper for printing */}
       <div
         ref={componentRef}
         style={{
@@ -20,13 +20,14 @@ const DownloadButton = ({ children }) => {
           margin: "auto",
           padding: "20px",
           background: "#fff",
-          boxShadow: "0 0 5px rgba(0,0,0,0.1)",
         }}
       >
         {children}
       </div>
 
+      {/* Print button */}
       <button
+        type="button"
         onClick={handlePrint}
         style={{
           marginTop: "20px",
