@@ -1,0 +1,7 @@
+@media print {
+  html, body { background: #fff !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .sidebar, .add-icon, .template-picker, .hint, button { display: none !important; }
+  .preview-area { border: none; padding: 0; }
+  .template { border: none; border-radius: 0; max-width: none; padding: 0; }
+  @page { size: A4; margin: 14mm; }
+}
