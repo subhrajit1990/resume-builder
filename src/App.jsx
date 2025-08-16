@@ -1,59 +1,40 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import TemplatePicker from "./components/TemplatePicker";
 import ResumePreview from "./components/ResumePreview";
-import SectionEditor from "./components/SectionEditor";
-import DownloadButton from "./components/DownloadButton";
-import defaultResume from "./data/defaultResume.json";
+
+// Import all templates
+import TemplateA from "./components/templates/TemplateA";
+import TemplateB from "./components/templates/TemplateB";
+import TemplateC from "./components/templates/TemplateC";
+
+// Import some starter resume JSON
+import resumeData from "./data/defaultResume.json";
+
+// Map template IDs to actual components
+const TEMPLATE_MAP = {
+  A: TemplateA,
+  B: TemplateB,
+  C: TemplateC,
+};
 
 export default function App() {
-  const [template, setTemplate] = useState("A");
-  const [resumeData, setResumeData] = useState(defaultResume);
-  const [editingSection, setEditingSection] = useState(null);
-  const [textCase, setTextCase] = useState({}); // per-section case: normal/upper/lower/capitalize
+  const [selectedTemplateId, setSelectedTemplateId] = useState("A"); // default template
 
-  const openEditor = (sectionKey) => setEditingSection(sectionKey);
-
-  const saveSection = (sectionKey, html, sectionCase) => {
-    setResumeData((prev) => ({ ...prev, [sectionKey]: html }));
-    if (sectionCase) {
-      setTextCase((prev) => ({ ...prev, [sectionKey]: sectionCase }));
-    }
-    setEditingSection(null);
-  };
+  // Pick the actual component based on selectedTemplateId
+  const SelectedTemplate = TEMPLATE_MAP[selectedTemplateId];
 
   return (
-    <div className="app">
-      <header className="header">📄 Resume Builder</header>
+    <div>
+      <h1 style={{ textAlign: "center" }}>Resume Builder</h1>
 
-      <div className="main">
-        <aside className="sidebar">
-          <h3 className="sidebar-title">Templates</h3>
-          <TemplatePicker value={template} onChange={setTemplate} />
-          <DownloadButton />
-          <p className="hint">
-            Tip: Tap any section on the preview to edit it.
-          </p>
-        </aside>
+      {/* Template Picker */}
+      <TemplatePicker value={selectedTemplateId} onChange={setSelectedTemplateId} />
 
-        <section className="preview-area">
-          <ResumePreview
-            template={template}
-            data={resumeData}
-            textCase={textCase}
-            onSectionClick={openEditor}
-          />
-        </section>
-      </div>
-
-      {editingSection && (
-        <SectionEditor
-          section={editingSection}
-          initialValue={resumeData[editingSection]}
-          initialCase={textCase[editingSection] || "normal"}
-          onSave={(html, sectionCase) => saveSection(editingSection, html, sectionCase)}
-          onClose={() => setEditingSection(null)}
-        />
-      )}
+      {/* Resume Preview + Download */}
+      <ResumePreview
+        resumeData={resumeData}
+        selectedTemplate={SelectedTemplate} // ✅ pass component, not string
+      />
     </div>
   );
 }
